@@ -3,15 +3,16 @@ const path = require('path');
 
 const createError = require('http-errors');
 const express = require('express');
-const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
+const debug = require('debug')('buzz-in:server');
 
 const indexRouter = require('./routes/index');
 const hostRouter = require('./routes/host');
 
-
 if (!fs.exists('data/save.json')) {
+  debug('No save file found, creating one...');
   fs.writeFileSync('data/save.json', '{}');
 }
 
@@ -24,12 +25,18 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   indentedSyntax: false, // true = .sass and false = .scss
   sourceMap: true
+}));
+
+app.use(session({
+  secret: 'DqN92p6@R*b2',
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
