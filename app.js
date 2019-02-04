@@ -8,12 +8,15 @@ const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const debug = require('debug')('buzz-in:server');
 
+const config = require('./data/config.json');
 const indexRouter = require('./routes/index');
 const hostRouter = require('./routes/host');
 
-if (!fs.exists('data/save.json')) {
+const saveFilePath = path.join(__dirname, '/data/save.json');
+
+if (!fs.existsSync(saveFilePath)) {
   debug('No save file found, creating one...');
-  fs.writeFileSync('data/save.json', '{}');
+  fs.writeFileSync(saveFilePath, '{}');
 }
 
 const app = express();
@@ -34,7 +37,7 @@ app.use(sassMiddleware({
 }));
 
 app.use(session({
-  secret: 'DqN92p6@R*b2',
+  secret: config.cookie_secret,
   resave: false,
   saveUninitialized: false
 }));
