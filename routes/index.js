@@ -11,10 +11,9 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  if (req.body.password === config['admin-password']) {
-    app.initSession(req, res);
-    res.redirect('/admin');
-    next();
+  if (req.body.password === config.host_password) {
+    req.session.hostLoggedIn = true;
+    res.redirect('/host');
   } else {
     res.render('login', {
       error: 'Incorrect password'

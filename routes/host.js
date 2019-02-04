@@ -9,14 +9,14 @@ router.get('/', function(req, res) {
 
 function verifyAccess (req, res, next) {
   if (req.connection.localAddress === req.connection.remoteAddress) {
-    //next();
-    //return;
+    next();
+    return;
   }
 
-  if (req.session.user && req.url === '/login') {
+  if (req.session.hostLoggedIn && req.url === '/login') {
     // user logged in trying to access login page
     res.redirect('/host');
-  } else if (!req.session.user && req.url !== '/login') {
+  } else if (!req.session.hostLoggedIn && req.url !== '/login') {
     res.status(401);
     res.render('login');
   } else {

@@ -2,5 +2,9 @@
     <label>Password</label>
     <input type="password" name="password"/>
 
+    {{#if error}}
+        <p class="error">{{error}}</p>
+    {{/if}}
+
     <input type="submit" class="button" value="Login"/>
 </form>
