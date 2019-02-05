@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const config = require('../data/config.json');
 
 router.use(verifyAccess);
 
 router.get('/', function(req, res) {
-  res.render('host', { title: 'Express' });
+  res.render('host', {
+    title: config.page_title,
+    password: config.host_password
+  });
 });
 
 function verifyAccess (req, res, next) {

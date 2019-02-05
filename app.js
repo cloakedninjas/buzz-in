@@ -1,9 +1,12 @@
-const fs = require("fs");
+const fs = require('fs');
 const path = require('path');
 
 const createError = require('http-errors');
 const express = require('express');
 const session = require('express-session');
+const socketIO = require('socket.io');
+const socketIOAuth = require('socketio-auth');
+
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const debug = require('debug')('buzz-in:server');
@@ -20,6 +23,8 @@ if (!fs.existsSync(saveFilePath)) {
 }
 
 const app = express();
+const io = socketIO();
+app.io = io;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +32,7 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
@@ -46,13 +51,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/host', hostRouter);
 
+socketIOAuth(io, {
+  authenticate: (socket, data, callback) => {
+    return callback(null, data.password === config.host_password);
+  }
+});
+
+io.on('connection', (socket) => {
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

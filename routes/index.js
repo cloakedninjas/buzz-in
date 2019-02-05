@@ -3,7 +3,7 @@ const router = express.Router();
 const config = require('../data/config.json');
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: config.page_title });
 });
 
 router.get('/login', (req, res) => {

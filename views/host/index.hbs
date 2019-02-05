@@ -1,2 +1,16 @@
+<script>
+    var socket = io();
+
+    socket.on('connect', function () {
+        socket.emit('authentication', {
+          password: '{{ password }}'
+        });
+
+        socket.on('authenticated', function () {
+            console.log('authed');
+        });
+    });
+</script>
+
 <h1>Buzz-In</h1>
 <h2>Host's Control Panel</h2>
