@@ -14,6 +14,7 @@ const debug = require('debug')('buzz-in:server');
 const config = require('./data/config.json');
 const indexRouter = require('./routes/index');
 const hostRouter = require('./routes/host');
+const Quiz = require('./lib/quiz');
 
 const saveFilePath = path.join(__dirname, '/data/save.json');
 
@@ -25,6 +26,8 @@ if (!fs.existsSync(saveFilePath)) {
 const app = express();
 const io = socketIO();
 app.io = io;
+
+const quiz = new Quiz(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,15 +55,8 @@ app.use('/', indexRouter);
 app.use('/host', hostRouter);
 
 socketIOAuth(io, {
-  authenticate: (socket, data, callback) => {
-    return callback(null, data.password === config.host_password);
-  }
-});
-
-io.on('connection', (socket) => {
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
+  authenticate: quiz.authenticateUser.bind(quiz),
+  postAuthenticate: quiz.postAuthenticateUser.bind(quiz),
 });
 
 // catch 404 and forward to error handler

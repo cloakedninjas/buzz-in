@@ -1,1 +1,22 @@
-Homepage
+<script>
+    var socket;
+
+    function connect() {
+        socket = io();
+        socket.on('connect', function () {
+            socket.emit('authentication', {
+                password: null,
+                name: document.getElementById('player-name').value
+            });
+
+            socket.on('authenticated', function () {
+                console.log('logged in as player');
+            });
+        });
+    }
+</script>
+
+<h1>Buzz-In</h1>
+<p>Your Name <input type="text" id="player-name"></p>
+<p>Team <select></select></p>
+

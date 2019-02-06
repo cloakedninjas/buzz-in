@@ -9,6 +9,10 @@
         socket.on('authenticated', function () {
             console.log('authed');
         });
+
+        socket.on('player-joined', function (data) {
+            console.log('player joined', data);
+        });
     });
 </script>
 
