@@ -3,7 +3,10 @@ const router = express.Router();
 const config = require('../data/config.json');
 
 router.get('/', function(req, res) {
-  res.render('index', { title: config.page_title });
+  res.render('index', {
+    title: config.page_title,
+    team: config.teams
+  });
 });
 
 router.get('/login', (req, res) => {

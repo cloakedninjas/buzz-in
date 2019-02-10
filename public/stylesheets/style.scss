@@ -1,3 +1,6 @@
+$buzzer-colour: darkred;
+$buzzer-drop-size: 20px;
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,4 +8,35 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+#buzzer {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+
+  button {
+    display: block;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 46px;
+    background: $buzzer-colour -webkit-gradient(linear, left top, left bottom, color-stop(0%, $buzzer-colour), color-stop(100%, $buzzer-colour));
+    box-shadow: 0 $buzzer-drop-size lighten($buzzer-colour, 5%);
+    outline: none;
+
+    &:active {
+      box-shadow: 0 0;
+      transform: translate(0, $buzzer-drop-size);
+      transition: 0.1s all ease-out;
+    }
+  }
 }

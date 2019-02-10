@@ -13,6 +13,10 @@
         socket.on('player-joined', function (data) {
             console.log('player joined', data);
         });
+
+        socket.on('buzzer', function (data) {
+            console.log('buzzer', data);
+        });
     });
 </script>
 

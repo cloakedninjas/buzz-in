@@ -1,22 +1,23 @@
-<script>
-    var socket;
+<div id="welcome">
+    <h1>Buzz-In</h1>
+    <p>
+        <label for="player-name">Your name</label>
+        <input type="text" id="player-name" required></p>
+    <p>
+        <label for="team-select">Team</label>
+        <select id="team-select">
+            <option value="">Choose one</option>
+            {{#each team}}
+                <option>{{this}}</option>
+            {{/each}}
+        </select>
+    </p>
 
-    function connect() {
-        socket = io();
-        socket.on('connect', function () {
-            socket.emit('authentication', {
-                password: null,
-                name: document.getElementById('player-name').value
-            });
+    <button id="btn-join">Join</button>
+</div>
 
-            socket.on('authenticated', function () {
-                console.log('logged in as player');
-            });
-        });
-    }
-</script>
+<div id="buzzer">
+    <button>Buzz-In!</button>
+</div>
 
-<h1>Buzz-In</h1>
-<p>Your Name <input type="text" id="player-name"></p>
-<p>Team <select></select></p>
-
+<script src="/js/client.js"></script>

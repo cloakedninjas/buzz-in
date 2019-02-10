@@ -5,4 +5,28 @@ body {
 a {
   color: #00B7FF; }
 
+#buzzer {
+  display: none; }
+  #buzzer.visible {
+    display: block; }
+  #buzzer button {
+    display: block;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 46px;
+    background: darkred -webkit-gradient(linear, left top, left bottom, color-stop(0%, darkred), color-stop(100%, darkred));
+    box-shadow: 0 20px #a50000;
+    outline: none; }
+    #buzzer button:active {
+      box-shadow: 0 0;
+      transform: translate(0, 20px);
+      transition: 0.1s all ease-out; }
+
 /*# sourceMappingURL=style.css.map */
