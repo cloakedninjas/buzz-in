@@ -5,7 +5,6 @@ const createError = require('http-errors');
 const express = require('express');
 const session = require('express-session');
 const socketIO = require('socket.io');
-const socketIOAuth = require('socketio-auth');
 
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
@@ -54,10 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/host', hostRouter);
 
-socketIOAuth(io, {
-  authenticate: quiz.authenticateUser.bind(quiz),
-  postAuthenticate: quiz.postAuthenticateUser.bind(quiz),
-});
+io.on('connection', quiz.clientConnected.bind(quiz));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

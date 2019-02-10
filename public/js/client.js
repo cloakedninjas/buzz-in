@@ -22,14 +22,9 @@ ClientApp.prototype = {
   connect: function () {
     this.socket = io();
     this.socket.on('connect', function () {
-      this.socket.emit('authentication', {
-        password: null,
+      this.socket.emit('player-join', {
         name: this.nameInput.value,
         team: this.teamSelect.value
-      });
-
-      this.socket.on('authenticated', function () {
-        console.log('logged in as player');
       });
     }.bind(this));
   },

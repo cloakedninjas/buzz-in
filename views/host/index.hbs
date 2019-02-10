@@ -2,12 +2,8 @@
     var socket = io();
 
     socket.on('connect', function () {
-        socket.emit('authentication', {
+        socket.emit('host-join', {
           password: '{{ password }}'
-        });
-
-        socket.on('authenticated', function () {
-            console.log('authed');
         });
 
         socket.on('player-joined', function (data) {
