@@ -1,20 +1,16 @@
-<script>
-    var socket = io();
-
-    socket.on('connect', function () {
-        socket.emit('host-join', {
-          password: '{{ password }}'
-        });
-
-        socket.on('player-joined', function (data) {
-            console.log('player joined', data);
-        });
-
-        socket.on('buzzer', function (data) {
-            console.log('buzzer', data);
-        });
-    });
-</script>
+<script src="js/host.js"></script>
 
 <h1>Buzz-In</h1>
 <h2>Host's Control Panel</h2>
+
+<h3>Player List</h3>
+
+<ol id="buzzer-list">
+</ol>
+
+<ol id="player-list">
+</ol>
+
+<script>
+    document.addEventListener('DOMContentLoaded', HostApp.init.bind(this, '{{ password }}'));
+</script>
